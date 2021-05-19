@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+//Classe da camada de acesso a dados
+//Anotacao Entity - a classe que esta relacionada a uma tabela do banco de dados
 @Entity
 @Table(name = "tb_category")
 public class Category implements Serializable{
