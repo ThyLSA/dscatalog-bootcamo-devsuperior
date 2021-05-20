@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.devsuperior.dscatalog.services.exceptions.EntityNotFoundException;
+import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 
 //Classe que vai interceptar exceções e tratá-las
 //Para isso, usa-se a annotation ControllerAdvice
@@ -17,8 +17,8 @@ import com.devsuperior.dscatalog.services.exceptions.EntityNotFoundException;
 public class ResourceExceptionHandler {
 	
 	//Para tratar excecoes, a annotation recebe um argumento .class da excecao
-	@ExceptionHandler(EntityNotFoundException.class)
-	public ResponseEntity<StandardError> entityNotFound(EntityNotFoundException e, HttpServletRequest request){
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<StandardError> entityNotFound(ResourceNotFoundException e, HttpServletRequest request){
 		StandardError error = new StandardError();
 		error.setTimestamp(Instant.now());
 		//Classe que tem os codigos http
