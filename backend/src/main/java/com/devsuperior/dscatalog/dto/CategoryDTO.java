@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.devsuperior.dscatalog.entities.Category;
 
 //Data Transfer Object (DTO)
-//Objetos de tráfego
+//Objetos de tráfego - podem ser customizados para visualizacao
 public class CategoryDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
