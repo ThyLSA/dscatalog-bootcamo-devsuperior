@@ -7,12 +7,15 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
+import com.devsuperior.dscatalog.services.exceptions.DatabaseIntegrityException;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 
 //Classe da camada de servico, usar a anotacao Service
@@ -59,7 +62,22 @@ public class CategoryService {
 			return new CategoryDTO(entity);
 		}
 		catch(EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Id not found "+id);
+			throw new ResourceNotFoundException("Id "+id+" not found ");
+		}
+	}
+	
+	//Nao usar o Transactional em operacoes delete
+	public void delete(Long id) {
+		try{
+			repository.deleteById(id);
+		}
+		//Caso o id nao seja encontrado
+		catch(EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Id "+id+" not found");
+		}
+		//Caso a tabela tenha relacionamento de um pra muitos
+		catch(DataIntegrityViolationException e) {
+			throw new DatabaseIntegrityException("Integrity violation");
 		}
 	}
 }

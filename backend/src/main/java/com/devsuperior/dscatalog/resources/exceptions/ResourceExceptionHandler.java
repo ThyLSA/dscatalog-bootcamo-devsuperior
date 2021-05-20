@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.devsuperior.dscatalog.services.exceptions.DatabaseIntegrityException;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 
 //Classe que vai interceptar exceções e tratá-las
@@ -24,6 +25,16 @@ public class ResourceExceptionHandler {
 		//Classe que tem os codigos http
 		error.setStatus(HttpStatus.NOT_FOUND.value());
 		error.setError("Resource not found");
+		error.setMessage(e.getMessage());
+		error.setPath(request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(error);
+	}
+	
+	public ResponseEntity<StandardError> databaseInegrityViolated(DatabaseIntegrityException e, HttpServletRequest request){
+		StandardError error = new StandardError();
+		error.setTimestamp(Instant.now());
+		error.setStatus(HttpStatus.BAD_REQUEST.value());
+		error.setError("Database integrity violated");
 		error.setMessage(e.getMessage());
 		error.setPath(request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(error);
