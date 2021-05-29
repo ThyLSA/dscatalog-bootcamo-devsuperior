@@ -30,13 +30,15 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(error);
 	}
 	
+	@ExceptionHandler(DatabaseIntegrityException.class)
 	public ResponseEntity<StandardError> databaseInegrityViolated(DatabaseIntegrityException e, HttpServletRequest request){
+		HttpStatus status = HttpStatus.BAD_REQUEST;
 		StandardError error = new StandardError();
 		error.setTimestamp(Instant.now());
-		error.setStatus(HttpStatus.BAD_REQUEST.value());
+		error.setStatus(status.value());
 		error.setError("Database integrity violated");
 		error.setMessage(e.getMessage());
 		error.setPath(request.getRequestURI());
-		return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(error);
+		return ResponseEntity.status(status.value()).body(error);
 	}
 }
