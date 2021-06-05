@@ -2,6 +2,7 @@ package com.devsuperior.dscatalog.resources.exceptions;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 
 //Classe que tem os mesmos atributos da resposta de erro
 //Criada para retornar um erro 404 (mais adequado), caso haja algum erro na aplicação
