@@ -32,12 +32,16 @@ public class ProductServiceIntegrationTests {
 	private Long existingId;
 	private Long nonExistingId;
 	private Long countTotalProducts;
+	private String nameDefault;
+	private Long categoryIdDefault;
 	
 	@BeforeEach
 	void setUp() throws Exception{
 		existingId = 1L;
 		nonExistingId = 1000L;
 		countTotalProducts = 25L;
+		nameDefault = "";
+		categoryIdDefault = 0L;
 	}
 	
 	@Test
@@ -58,7 +62,7 @@ public class ProductServiceIntegrationTests {
 	@Test
 	public void findAllPagedShouldReturnPageWhenPage0size10() {
 		PageRequest pageRequest = PageRequest.of(0, 10);
-		Page<ProductDTO> result = service.findAll(pageRequest);
+		Page<ProductDTO> result = service.findAll(categoryIdDefault, nameDefault, pageRequest);
 		
 		assertFalse(result.isEmpty());
 		assertEquals(0, result.getNumber());
@@ -69,7 +73,7 @@ public class ProductServiceIntegrationTests {
 	@Test
 	public void findAllPagedShouldReturnEmptyPageWhenPageDoesNotExists() {
 		PageRequest pageRequest = PageRequest.of(50, 10);
-		Page<ProductDTO> result = service.findAll(pageRequest);
+		Page<ProductDTO> result = service.findAll(categoryIdDefault, nameDefault, pageRequest);
 		
 		assertTrue(result.isEmpty());
 	}
@@ -77,7 +81,7 @@ public class ProductServiceIntegrationTests {
 	@Test
 	public void findAllPagedShouldReturnSortedPageWhenSortbyName() {
 		PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("name"));
-		Page<ProductDTO> result = service.findAll(pageRequest);
+		Page<ProductDTO> result = service.findAll(categoryIdDefault, nameDefault, pageRequest);
 		
 		assertFalse(result.isEmpty());
 		assertEquals("Macbook Pro", result.getContent().get(0).getName());
